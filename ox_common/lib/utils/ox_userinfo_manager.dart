@@ -99,28 +99,28 @@ class OXUserInfoManager {
 
   void addChatCallBack() async {
     Contacts.sharedInstance.secretChatRequestCallBack = (SecretSessionDB ssDB) async {
-      LogUtil.e("Michael: init secretChatRequestCallBack ssDB.toPubkey =${ssDB.toPubkey}");
+      LogUtil.e("Michael: init secretChatRequestCallBack ssDB.sessionId =${ssDB.sessionId}");
       OXChatBinding.sharedInstance.secretChatRequestCallBack(ssDB);
     };
     Contacts.sharedInstance.secretChatAcceptCallBack = (SecretSessionDB ssDB) {
-      LogUtil.e("Michael: init secretChatAcceptCallBack ssDB.toPubkey =${ssDB.toPubkey}");
+      LogUtil.e("Michael: init secretChatAcceptCallBack ssDB.sessionId =${ssDB.sessionId}");
       OXChatBinding.sharedInstance.secretChatAcceptCallBack(ssDB);
     };
     Contacts.sharedInstance.secretChatRejectCallBack = (SecretSessionDB ssDB) {
-      LogUtil.e("Michael: init secretChatRejectCallBack ssDB.toPubkey =${ssDB.toPubkey}");
+      LogUtil.e("Michael: init secretChatRejectCallBack ssDB.sessionId =${ssDB.sessionId}");
       OXChatBinding.sharedInstance.secretChatRejectCallBack(ssDB);
     };
     Contacts.sharedInstance.secretChatUpdateCallBack = (SecretSessionDB ssDB) {
-      LogUtil.e("Michael: init secretChatUpdateCallBack ssDB.toPubkey =${ssDB.toPubkey}");
+      LogUtil.e("Michael: init secretChatUpdateCallBack ssDB.sessionId =${ssDB.sessionId}");
       OXChatBinding.sharedInstance.secretChatUpdateCallBack(ssDB);
     };
     Contacts.sharedInstance.secretChatCloseCallBack = (SecretSessionDB ssDB) {
       LogUtil.e("Michael: init secretChatCloseCallBack");
       OXChatBinding.sharedInstance.secretChatCloseCallBack(ssDB);
     };
-    Contacts.sharedInstance.secretChatMessageCallBack = (String secretSessionId, MessageDB message) {
-      LogUtil.e("Michael: init secretChatMessageCallBack secretSessionId =${secretSessionId}; message.id =${message.messageId}");
-      OXChatBinding.sharedInstance.secretChatMessageCallBack(message, secretSessionId: secretSessionId);
+    Contacts.sharedInstance.secretChatMessageCallBack = (MessageDB message) {
+      LogUtil.e("Michael: init secretChatMessageCallBack message.id =${message.messageId}");
+      OXChatBinding.sharedInstance.secretChatMessageCallBack(message);
     };
     Contacts.sharedInstance.privateChatMessageCallBack = (MessageDB message) {
       LogUtil.e("Michael: init privateChatMessageCallBack message.id =${message.messageId}");
@@ -214,6 +214,22 @@ class OXUserInfoManager {
       updateNotificatin = okEvent.status;
     }
     return updateNotificatin;
+  }
+
+  Future<bool> checkDNS() async {
+    String pubKey = currentUserInfo?.pubKey ?? '';
+    String dnsStr = currentUserInfo?.dns ?? '';
+    List<String> relayAddressList = OXRelayManager.sharedInstance.relayAddressList;
+    List<String> temp = dnsStr.split('@');
+    String name = temp[0];
+    String domain = temp[1];
+    DNS dns = DNS(name, domain, pubKey, relayAddressList);
+    try {
+      return await Account.checkDNS(dns);
+    } catch (error, stack) {
+      LogUtil.e("check dns error:$error\r\n$stack");
+      return false;
+    }
   }
 
   void _initDatas() async {

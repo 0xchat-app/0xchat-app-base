@@ -35,6 +35,10 @@ class ChatSessionModel extends DBObject {
 
   bool alwaysTop;
 
+  String? draft;
+
+  int? messageKind;
+
   ChatSessionModel({
     this.chatId,
     this.chatName,
@@ -48,10 +52,20 @@ class ChatSessionModel extends DBObject {
     this.messageType,
     this.avatar,
     this.alwaysTop = false,
+    this.draft,
+    this.messageKind,
   });
 
   static List<String?> primaryKey() {
     return ['chatId'];
+  }
+
+  static List<String?> ignoreKey() {
+    return ['messageKind'];
+  }
+
+  static Map<String, String?> updateTable() {
+    return {"2": '''alter table ChatSessionModel add draft TEXT;'''};
   }
 
   @override
@@ -78,6 +92,7 @@ ChatSessionModel _chatSessionModelFromMap(Map<String, dynamic> map) {
     messageType: map['messageType'],
     avatar: map['avatar'],
     alwaysTop: map['alwaysTop'] == 1,
+    draft: map['draft'],
   );
 }
 
@@ -94,5 +109,5 @@ Map<String, dynamic> _chatSessionModelToMap(ChatSessionModel instance) => <Strin
       'messageType': instance.messageType,
       'avatar': instance.avatar,
       'alwaysTop': instance.alwaysTop == true ? 1 : 0,
+      'draft': instance.draft,
     };
-
