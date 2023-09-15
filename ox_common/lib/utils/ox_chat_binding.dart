@@ -8,6 +8,8 @@ import 'package:ox_common/model/chat_type.dart';
 import 'package:ox_common/utils/ox_userinfo_manager.dart';
 import 'dart:convert';
 
+import 'package:ox_localizable/ox_localizable.dart';
+
 ///Title: ox_chat_binding
 ///Description: TODO(Fill in by OXChat)
 ///Copyright: Copyright (c) 2021
@@ -119,16 +121,16 @@ class OXChatBinding {
         return showContent;
       case MessageType.image:
       case MessageType.encryptedImage:
-        return '[image]';
+        return Localized.text('ox_common.message_type_image');
       case MessageType.video:
       case MessageType.encryptedVideo:
-        return '[video]';
+        return Localized.text('ox_common.message_type_video');
       case MessageType.audio:
       case MessageType.encryptedAudio:
-        return '[audio]';
+        return Localized.text('ox_common.message_type_audio');
       case MessageType.file:
       case MessageType.encryptedFile:
-        return '[file]';
+        return Localized.text('ox_common.message_type_file');
       case MessageType.system:
         return messageDB.decryptContent ?? '';
       case MessageType.template:
@@ -140,7 +142,7 @@ class OXChatBinding {
               final type = CustomMessageTypeEx.fromValue(decryptedContent['type']);
               switch (type) {
                 case CustomMessageType.zaps:
-                  return '[zaps]';
+                  return Localized.text('ox_common.message_type_zaps');
                 default:
                   break ;
               }
@@ -148,9 +150,9 @@ class OXChatBinding {
           } catch (_) { }
         }
 
-        return '[template]';
+        return Localized.text('ox_common.message_type_template');
       default:
-        return '[unknown]';
+        return Localized.text('ox_common.message_type_unknown');
     }
   }
 

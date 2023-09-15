@@ -11,6 +11,7 @@
   "qr_code": "二维码",
   "commit": "提交",
   "loading": "加载中...",
+  "by": "创建者",
   "permiss_camera_refuse": "获取相机权限失败",
   "permiss_storage_refuse": "获取存储权限失败",
   "permiss_microphone_refuse": "获取麦克风权限失败",
@@ -86,5 +87,12 @@
   "str_scan": "扫一扫",
   "str_add_friend" : "添加联系人",
   "str_new_channel": "新建频道",
-  "scan_find_not_same_hint": "您需要添加一个中继：${relay}来获取这些数据。"
+  "scan_find_not_same_hint": "您需要添加一个中继：${relay}来获取这些数据。",
+  "message_type_image": "[图片]",
+  "message_type_video": "[视频]",
+  "message_type_audio": "[音频]",
+  "message_type_file": "[文件]",
+  "message_type_zaps": "[打闪]",
+  "message_type_template": "[模版消息]",
+  "message_type_unknown": "[未知消息]"
 }
