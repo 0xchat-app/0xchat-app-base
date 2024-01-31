@@ -19,4 +19,16 @@ class OXCallingInterface {
       },
     );
   }
+
+  static void pushGroupCallingPage(BuildContext context, List<UserDB> selectList, CallMessageType type) {
+    OXModuleService.pushPage(
+      context,
+      moduleName,
+      'GroupCallPage',
+      {
+        'userList': selectList,
+        'media': type.text,
+      },
+    );
+  }
 }
