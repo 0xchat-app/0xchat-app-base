@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ox_common/navigator/page_router.dart';
+
+import '../utils/ox_split_view_page_manager.dart';
+import '../utils/platform_utils.dart';
 
 enum OXPushPageType {
   slideToLeft,
@@ -36,6 +41,12 @@ class OXNavigator extends Navigator {
     // Remove the current focus
     FocusScope.of(context).requestFocus(FocusNode());
 
+    double width = MediaQuery.of(OXNavigator.navigatorKey.currentContext!).size.width;
+    OXClientPageManager.sharedInstance.popPages();
+
+    if(width > PlatformUtils.listWidth){
+      return;
+    }
     if (canPop(context)) {
       Navigator.pop(context, result);
     } else {
@@ -146,45 +157,57 @@ class OXNavigator extends Navigator {
         bool fullscreenDialog = false,
         OXPushPageType type = OXPushPageType.slideToLeft,
       }) {
-    pageName ??= builder(null).runtimeType.toString();
-    context ??= navigatorKey.currentContext;
-    if (context == null) return Future.value(null);
+    double width = MediaQuery.of(OXNavigator.navigatorKey.currentContext!).size.width;
+    if(width > PlatformUtils.listWidth  ){
+      Widget? getWidget = builder(context);
+      print('===getWidget===$getWidget');
+      OXClientPageManager.sharedInstance.pushPage(getWidget);
+      return Future(() => null);
+    }else{
+      Widget? getWidget = builder(context);
+      OXClientPageManager.sharedInstance.pushPage(getWidget);
 
-    final routeSettings = OXRouteSettings(
-      name: pageName,
-      pageId: pageId,
-      isShortLived: isShortLived,
-    );
-    PageRoute<T> route;
+      pageName ??= builder(null).runtimeType.toString();
+      context ??= navigatorKey.currentContext;
+      if (context == null) return Future.value(null);
 
-    switch (type) {
-      case OXPushPageType.slideToLeft:
-        route = SlideLeftToRightRoute<T>(
-          fullscreenDialog: fullscreenDialog,
-          settings: routeSettings,
-          builder: builder,
-        );
-      case OXPushPageType.noAnimation:
-        route = NoAnimationPageRoute<T>(
-          builder: builder,
-          settings: routeSettings,
-        );
-      case OXPushPageType.opacity:
-        route = OpacityAnimationPageRoute<T>(
-          builder: builder,
-          settings: routeSettings,
-        );
-      case OXPushPageType.transparent:
-        route = TransparentPageRoute<T>(
-          builder: builder,
-          settings: routeSettings,
-        );
+      final routeSettings = OXRouteSettings(
+        name: pageName,
+        pageId: pageId,
+        isShortLived: isShortLived,
+      );
+      PageRoute<T> route;
+
+      switch (type) {
+        case OXPushPageType.slideToLeft:
+          route = SlideLeftToRightRoute<T>(
+            fullscreenDialog: fullscreenDialog,
+            settings: routeSettings,
+            builder: builder,
+          );
+        case OXPushPageType.noAnimation:
+          route = NoAnimationPageRoute<T>(
+            builder: builder,
+            settings: routeSettings,
+          );
+        case OXPushPageType.opacity:
+          route = OpacityAnimationPageRoute<T>(
+            builder: builder,
+            settings: routeSettings,
+          );
+        case OXPushPageType.transparent:
+          route = TransparentPageRoute<T>(
+            builder: builder,
+            settings: routeSettings,
+          );
+      }
+
+      return OXNavigator._push(
+        context,
+        route,
+      );
     }
 
-    return OXNavigator._push(
-      context,
-      route,
-    );
   }
 
   static Future<T?> presentPage<T extends Object?>(
