@@ -10,13 +10,12 @@ class OXClientPageManager {
 
   OXClientPageManager._internal();
 
-  final List<Widget> _pages = [];
-  final ValueNotifier<Widget?> currentPage = ValueNotifier(null);
+  final List<Widget Function(BuildContext? context)> _pages = [];
+  final ValueNotifier<Widget Function(BuildContext? context)?> currentPage = ValueNotifier(null);
 
-  void pushPage(Widget page) {
-    print('==page==$page');
+  void pushPage(Widget Function(BuildContext? context) builder) {
     // if(isPageAlreadyPushed(page)) return;
-    _pages.add(page);
+    _pages.add(builder);
     getCurrentPage();
   }
 
@@ -25,8 +24,6 @@ class OXClientPageManager {
   }
 
   void getCurrentPage() {
-    print('=====hwx');
-    print('===_pages==${_pages}');
     if (_pages.isNotEmpty) {
       currentPage.value = _pages.last;
     } else {

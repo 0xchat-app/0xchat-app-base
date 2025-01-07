@@ -41,12 +41,12 @@ class OXNavigator extends Navigator {
     // Remove the current focus
     FocusScope.of(context).requestFocus(FocusNode());
 
-    double width = MediaQuery.of(OXNavigator.navigatorKey.currentContext!).size.width;
-    OXClientPageManager.sharedInstance.popPages();
+    if(OXClientPageManager.sharedInstance.currentPage.value != null){
 
-    if(width > PlatformUtils.listWidth){
+      OXClientPageManager.sharedInstance.popPages();
       return;
     }
+
     if (canPop(context)) {
       Navigator.pop(context, result);
     } else {
@@ -160,13 +160,9 @@ class OXNavigator extends Navigator {
     double width = MediaQuery.of(OXNavigator.navigatorKey.currentContext!).size.width;
     if(width > PlatformUtils.listWidth  ){
       Widget? getWidget = builder(context);
-      print('===getWidget===$getWidget');
-      OXClientPageManager.sharedInstance.pushPage(getWidget);
+      OXClientPageManager.sharedInstance.pushPage(builder);
       return Future(() => null);
     }else{
-      Widget? getWidget = builder(context);
-      OXClientPageManager.sharedInstance.pushPage(getWidget);
-
       pageName ??= builder(null).runtimeType.toString();
       context ??= navigatorKey.currentContext;
       if (context == null) return Future.value(null);

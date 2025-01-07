@@ -8,6 +8,9 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 enum DeviceType { mobile, desktop, web }
 
 class PlatformUtils {
+  static ValueNotifier<bool> isWideScreenNotifier = ValueNotifier(false);
+
+
   static DeviceType getDeviceType() {
     if (kIsWeb) {
       return DeviceType.web;
