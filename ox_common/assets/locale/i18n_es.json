@@ -106,5 +106,22 @@
   "secret_chat_rejected_tips": "${name} ha rechazado tu solicitud de chat secreto",
   "you": "tú",
   "webview_more_browser": "Abrir en el navegador",
-  "webview_more_copy": "Copiar enlace"
+  "webview_more_copy": "Copiar enlace",
+  "open_singer_app_error_title": "Error al abrir la aplicación de firma",
+  "open_singer_app_error_content": "No se pudo encontrar la aplicación de firma. Verifica si la aplicación no ha sido desinstalada.",
+  "str_grant_permission_photo_hint": "Por favor, concede permiso para acceder a la foto",
+  "webview_more_send_to_chat": "Enviar al chat",
+  "str_share": "Compartir",
+  "str_uses_app": "Usa la aplicación ${appname}",
+  "str_disables_push_notification": "Desactiva las notificaciones push",
+  "str_select_push_app_title": "Por favor, selecciona la aplicación de notificaciones push",
+  "str_permission_audio_call_hint": "Por favor, ve manualmente a 'Configuración', abre los permisos del micrófono",
+  "str_permission_call_hint": "Por favor, ve manualmente a 'Configuración', abre los permisos del micrófono/cámara",
+  "str_singer_app_verify_failed_hint": "La verificación de firma falló. Por favor, inicia sesión de nuevo",
+  "str_succeed_hint": "Éxito",
+  "signer_connected": "Firmante conectado",
+  "signer_disconnected": "Firmante desconectado. Por favor, asegúrate de que la aplicación de firma esté abierta.",
+  "signer_connecting": "Conectando al firmante...",
+  "signer_waiting": "Esperando aprobación de firma...",
+  "signer_signature": "Firma aprobada."
 }
