@@ -136,6 +136,12 @@ class FileStorageServer {
           name: 'void.cat',
           canEdit: false,
           description: 'https://void.cat',
+        ),
+        FileDropServer(
+          url: 'https://filedrop.besoeasy.com',
+          name: 'filedrop.besoeasy.com',
+          canEdit: false,
+          description: 'https://github.com/besoeasy/file-drop',
         )
       ]);
 }
