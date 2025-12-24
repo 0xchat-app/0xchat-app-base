@@ -142,6 +142,12 @@ class FileStorageServer {
           name: 'filedrop.besoeasy.com',
           canEdit: false,
           description: 'https://github.com/besoeasy/file-drop',
+        ),
+        BlossomServer(
+          url: 'https://24242.io',
+          name: '24242.io',
+          canEdit: false,
+          description: 'https://24242.io',
         )
       ]);
 }
