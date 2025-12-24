@@ -63,21 +63,33 @@ class OXFileCache extends OXBaseCache {
   }
 
   Future<bool> clearData() async {
-    final directory = await _getCacheDir();
-    directory.delete(recursive: true);
-    return true;
+    try {
+      final directory = await _getCacheDir();
+      await directory.delete(recursive: true);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<double> cacheSize() async {
-    final directory = await _getCacheDir();
-    double totalLength = 0;
-    await directory.list(recursive: true).forEach((element) {
-      if (element is File) {
-        var data = element.readAsBytesSync();
-        totalLength = totalLength + data.length;
+    try {
+      final directory = await _getCacheDir();
+      double totalLength = 0;
+      await for (final entity in directory.list(recursive: true, followLinks: false)) {
+        if (entity is File) {
+          try {
+            final stat = await entity.stat();
+            totalLength += stat.size.toDouble();
+          } catch (_) {
+            // Ignore files that can't be stat'ed
+          }
+        }
       }
-    });
-    return totalLength;
+      return totalLength;
+    } catch (e) {
+      return 0;
+    }
   }
 
   Future<File> _getFile(String fileName, {isForever = false}) async {
