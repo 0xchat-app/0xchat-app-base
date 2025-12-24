@@ -13,20 +13,24 @@ class OXFileCache extends OXBaseCache {
     String fileFullName = key;
     String contents = convert.jsonEncode(data);
     File file = await _getFile(fileFullName);
-    await file.writeAsString(contents).then((vale) {
+    try {
+      await file.writeAsString(contents);
       return true;
-    });
-    return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> saveForeverData(String key, dynamic data) async {
     String fileFullName = key;
     String contents = convert.jsonEncode(data);
     File file = await _getFile(fileFullName, isForever: true);
-    await file.writeAsString(contents).then((vale) {
+    try {
+      await file.writeAsString(contents);
       return true;
-    });
-    return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<dynamic> getForeverData(String key, {dynamic defaultValue}) async {
@@ -78,14 +82,14 @@ class OXFileCache extends OXBaseCache {
 
   Future<File> _getFile(String fileName, {isForever = false}) async {
     final directory =
-        isForever ? await _getCacheDir() : await _getForeverCacheDir();
+        isForever ? await _getForeverCacheDir() : await _getCacheDir();
     final filePath = directory.path;
     return new File(filePath + '/' + fileName);
   }
 
   Future<Directory> _getCacheDir() async {
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = directory.path + '/{$oxFilePath}';
+    final filePath = directory.path + '/$oxFilePath';
     Directory dir = new Directory(filePath);
     bool isExists = await dir.exists();
     if (isExists) return dir;
@@ -94,7 +98,7 @@ class OXFileCache extends OXBaseCache {
 
   Future<Directory> _getForeverCacheDir() async {
     final directory = await getApplicationDocumentsDirectory();
-    final filePath = directory.path + '/{$foreverPath}';
+    final filePath = directory.path + '/$foreverPath';
     Directory dir = new Directory(filePath);
     bool isExists = await dir.exists();
     if (isExists) return dir;
