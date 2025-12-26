@@ -125,6 +125,12 @@ class FileStorageServer {
           canEdit: false,
           description: 'https://24242.io',
         ),
+        BlossomServer(
+          url: 'https://blossom.band',
+          name: 'blossom.band',
+          canEdit: false,
+          description: 'https://blossom.band',
+        ),
         Nip96Server(
           url: 'https://pomf2.lain.la',
           name: 'pomf2.lain.la',
